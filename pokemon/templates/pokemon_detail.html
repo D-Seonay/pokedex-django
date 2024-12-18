@@ -40,6 +40,20 @@
     <p>Types : {{ pokemon.types }}</p>
     <p>Height : {{ pokemon.height }}</p>
     <p>Weight : {{ pokemon.weight }}</p>
+
+    <p>Hp : {{ pokemon.hp }}</p>
+    <p>Attack : {{ pokemon.attack }}</p>
+    <p>Defense : {{ pokemon.defense }}</p>
+    <p>Special Attack : {{ pokemon.special_attack }}</p>
+    <p>Special Defense : {{ pokemon.special_defense }}</p>
+    <p>Speed : {{ pokemon.speed }}</p>
+
+    <audio controls>
+        <source src="{{ pokemon.cry_url }}" type="audio/ogg">
+        Your browser does not support the audio element.
+    </audio>
+    
+
     <a href="/">Retour au Pokédex</a>
 </body>
 </html>
