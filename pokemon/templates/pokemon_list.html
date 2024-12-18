@@ -41,8 +41,8 @@
         {% for pokemon in pokemons %}
         <li>
             <a href="{{ pokemon.id }}/">
-                <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
-                <div>{{ pokemon.name }}</div>
+            <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
+            <div>#{{ pokemon.number }} - {{ pokemon.name }}</div>
             </a>
         </li>
         {% endfor %}
