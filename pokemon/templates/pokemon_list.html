@@ -1,16 +1,48 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <title>Pokédex</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        .pokemon-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 20px;
+            padding: 20px;
+        }
+        .pokemon-grid li {
+            list-style: none;
+            text-align: center;
+        }
+        .pokemon-grid img {
+            max-width: 100%;
+            height: auto;
+        }
+        .pokemon-grid a {
+            text-decoration: none;
+            color: black;
+        }
+        @media (max-width: 600px) {
+            .pokemon-grid {
+                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+                gap: 10px;
+                padding: 10px;
+            }
+        }
+    </style>
 </head>
 <body>
     <h1>Pokédex</h1>
-    <ul>
+    <ul class="pokemon-grid">
         {% for pokemon in pokemons %}
         <li>
             <a href="{{ pokemon.id }}/">
                 <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
-                {{ pokemon.name }}
+                <div>{{ pokemon.name }}</div>
             </a>
         </li>
         {% endfor %}
