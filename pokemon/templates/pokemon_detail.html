@@ -4,22 +4,75 @@
     <title>{{ pokemon.name }}</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f8f8f8;
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f6fc;
             margin: 0;
             padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
         }
+
+        .container {
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            max-width: 500px;
+            width: 100%;
+            padding: 20px;
+            text-align: center;
+        }
+
         h1 {
-            color: #333;
+            color: #2c3e50;
+            text-transform: capitalize;
         }
+
         img {
             display: block;
             margin: 20px auto;
+            max-width: 150px;
         }
+
         p {
-            font-size: 18px;
+            font-size: 16px;
             color: #555;
+            margin: 10px 0;
         }
+
+        .progress-container {
+            background-color: #e0e0e0;
+            width: 100%;
+            height: 10px;
+            border-radius: 5px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            position: relative;
+            width: 0; /* Initialement à 0 */
+            height: 100%;
+            border-radius: 5px;
+            background-color: #4caf50; /* Couleur de la barre */
+            transition: width 0.8s ease; /* Animation douce */
+        }
+
+        .stats {
+            margin: 20px 0;
+            text-align: left;
+        }
+
+        .stat {
+            margin-bottom: 15px;
+        }
+
+        .stat p {
+            margin: 0;
+            font-weight: bold;
+        }
+
         a {
             display: inline-block;
             margin-top: 20px;
@@ -28,32 +81,80 @@
             color: white;
             text-decoration: none;
             border-radius: 5px;
+            font-weight: bold;
+            transition: background-color 0.3s ease;
         }
+
         a:hover {
             background-color: #0056b3;
         }
     </style>
 </head>
 <body>
-    <h1>{{ pokemon.name }}</h1>
-    <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
-    <p>Types : {{ pokemon.types }}</p>
-    <p>Height : {{ pokemon.height }}</p>
-    <p>Weight : {{ pokemon.weight }}</p>
+    <div class="container">
+        <h1>{{ pokemon.name }}</h1>
+        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
+        <p>Types : {{ pokemon.types }}</p>
+        <p>Height : {{ pokemon.height }} m</p>
+        <p>Weight : {{ pokemon.weight }} kg</p>
 
-    <p>Hp : {{ pokemon.hp }}</p>
-    <p>Attack : {{ pokemon.attack }}</p>
-    <p>Defense : {{ pokemon.defense }}</p>
-    <p>Special Attack : {{ pokemon.special_attack }}</p>
-    <p>Special Defense : {{ pokemon.special_defense }}</p>
-    <p>Speed : {{ pokemon.speed }}</p>
+        <div class="stats">
+            <div class="stat">
+                <p>HP : {{ pokemon.hp }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" data-value="{{ pokemon.hp }}"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <p>Attack : {{ pokemon.attack }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" data-value="{{ pokemon.attack }}"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <p>Defense : {{ pokemon.defense }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" data-value="{{ pokemon.defense }}"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <p>Special Attack : {{ pokemon.special_attack }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" data-value="{{ pokemon.special_attack }}"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <p>Special Defense : {{ pokemon.special_defense }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" data-value="{{ pokemon.special_defense }}"></div>
+                </div>
+            </div>
+            <div class="stat">
+                <p>Speed : {{ pokemon.speed }}</p>
+                <div class="progress-container">
+                    <div class="progress-bar" data-value="{{ pokemon.speed }}"></div>
+                </div>
+            </div>  
+                <audio controls>
+                    <source src="{{ pokemon.cry_url }}" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+        </div>
 
-    <audio controls>
-        <source src="{{ pokemon.cry_url }}" type="audio/ogg">
-        Your browser does not support the audio element.
-    </audio>
-    
+        <a href="/">Retour au Pokédex</a>
+    </div>
 
-    <a href="/">Retour au Pokédex</a>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const progressBars = document.querySelectorAll(".progress-bar");
+
+            progressBars.forEach(bar => {
+                const value = bar.getAttribute("data-value");
+                const max = 255; // Remplacez par la valeur max selon vos besoins
+                const percentage = (value / max) * 100;
+                bar.style.width = percentage + "%";
+            });
+        });
+    </script>
 </body>
 </html>

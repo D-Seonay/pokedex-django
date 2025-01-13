@@ -1,51 +1,125 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <title>Pokédex</title>
+    <title>Liste des Pokémon</title>
     <style>
         body {
             font-family: Arial, sans-serif;
+            background-color: #f8f8f8;
             margin: 0;
-            padding: 0;
+            padding: 20px;
+        }
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .search-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        input[type="text"] {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .type-buttons {
+            text-align: center;
+            margin: 20px 0;
+        }
+        .type-buttons button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .type-buttons button:hover {
+            background-color: #45a049;
         }
         .pokemon-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
             gap: 20px;
-            padding: 20px;
+            padding: 0;
+            margin: 0 auto;
+            max-width: 1200px;
         }
-        .pokemon-grid li {
-            list-style: none;
+        .pokemon-card {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 10px;
             text-align: center;
+            background:
+                radial-gradient(circle, rgba(31, 38, 135, 0.1) 5%, rgba(255, 0, 0, 0) 1%) 0px 0px / 5px 5px, radial-gradient(circle, rgba(0, 0, 0, 0.5) 1%, rgba(255, 0, 0, 0) 1%) 2.5px 2.5px / 5px 5px rgb(255, 255, 255);
+
         }
-        .pokemon-grid img {
-            max-width: 100%;
-            height: auto;
+        .pokemon-card img {
+            width: 100px;
+            height: 100px;
         }
-        .pokemon-grid a {
-            text-decoration: none;
-            color: black;
-        }
-        @media (max-width: 600px) {
-            .pokemon-grid {
-                grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
-                gap: 10px;
-                padding: 10px;
-            }
+        .no-results {
+            text-align: center;
+            color: #555;
+            font-size: 18px;
+            margin-top: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Pokédex</h1>
-    <ul class="pokemon-grid">
+    <h1>Liste des Pokémon</h1>
+    
+    <div class="search-container">
+        <form method="get">
+            <input type="text" name="search" placeholder="Rechercher un Pokémon" value="{{ request.GET.search }}">
+            <input type="text" name="type" placeholder="Filtrer par type" value="{{ request.GET.type }}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <div class="type-buttons">
+        <form method="get" style="display: inline;">
+            <button type="submit" name="type" value="water">Water</button>
+        </form>
+        <form method="get" style="display: inline;">
+            <button type="submit" name="type" value="fire">Fire</button>
+        </form>
+        <form method="get" style="display: inline;">
+            <button type="submit" name="type" value="grass">Grass</button>
+        </form>
+        <!-- Ajoutez d'autres types si nécessaire -->
+    </div>
+
+    {% if pokemons %}
+    <div class="pokemon-grid">
         {% for pokemon in pokemons %}
-        <li>
-            <a href="{{ pokemon.id }}/">
-            <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
-            <div>#{{ pokemon.number }} - {{ pokemon.name }}</div>
-            </a>
-        </li>
+        <a href="{{ pokemon.id }}/">
+            <div class="pokemon-card">
+                <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
+                <p>{{ pokemon.id }}</p>
+                <strong>{{ pokemon.name }}</strong>
+                <p>Types: {{ pokemon.types }}</p>
+            </div>
+        </a>
         {% endfor %}
-    </ul>
+    </div>
+    {% else %}
+    <div class="no-results">
+        <p>Pas de Pokémon trouvé.</p>
+    </div>
+    {% endif %}
 </body>
 </html>
