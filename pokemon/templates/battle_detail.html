@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h2>Battle Result</h2>
+<p><strong>Trainer 1:</strong> {{ battle.trainer1.name }}</p>
+<p><strong>Trainer 2:</strong> {{ battle.trainer2.name }}</p>
+
+{% if battle.winner %}
+    <h3>🎉 Winner: {{ battle.winner.name }}! 🎉</h3>
+{% else %}
+    <h3>🤝 It's a Draw! 🤝</h3>
+{% endif %}
+
+<a href="{% url 'battle_list' %}">View Battle History</a>
+</body>
+</html>

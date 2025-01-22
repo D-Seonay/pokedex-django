@@ -17,3 +17,20 @@ class Pokemon(models.Model):
 
     def __str__(self):
         return self.name
+
+class Team(models.Model):
+    name = models.CharField(max_length=100)
+    pokemons = models.ManyToManyField(Pokemon, related_name="teams")
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return self.name
+
+class Battle(models.Model):
+    trainer1 = models.ForeignKey(Team, related_name="battles_as_trainer1", on_delete=models.CASCADE)
+    trainer2 = models.ForeignKey(Team, related_name="battles_as_trainer2", on_delete=models.CASCADE)
+    winner = models.ForeignKey(Team, related_name="battles_won", null=True, blank=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.trainer1.name} vs {self.trainer2.name}"

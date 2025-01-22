@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h2>Team List</h2>
+<a href="{% url 'team_create' %}">Create a New Team</a>
+<ul>
+    {% for team in teams %}
+        <li>
+            <a href="{% url 'team_detail' team.id %}">{{ team.name }}</a>
+            <a href="{% url 'team_edit' team.id %}">Edit</a>
+            <form action="{% url 'team_delete' team.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+    {% endfor %}
+</ul>
+</body>
+</html>
