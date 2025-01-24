@@ -1,26 +1,28 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
+    {% include 'components/navbar.html' %}
     <h2>Battle History</h2>
-<ul>
-    {% for battle in battles %}
-        <li>
-            <a href="{% url 'battle_detail' battle.id %}">
-                {{ battle.trainer1.name }} 🆚 {{ battle.trainer2.name }} 
-                {% if battle.winner %}
-                    - Winner: {{ battle.winner.name }} 🎉
-                {% else %}
-                    - Draw 🤝
-                {% endif %}
-            </a>
-        </li>
-    {% endfor %}
-</ul>
-<a href="{% url 'team_list' %}">Back to Teams</a>
+    <ul>
+        {% for battle in battles %}
+            <li>
+                <a href="{% url 'battle_detail' battle.id %}">
+                    {{ battle.trainer1.name }} 🆚 {{ battle.trainer2.name }}
+                    {% if battle.winner %}
+                        - Winner: {{ battle.winner.name }} 🎉
+                    {% else %}
+                        - Draw 🤝
+                    {% endif %}
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+    <a href="{% url 'team_list' %}">Back to Teams</a>
 </body>
 </html>

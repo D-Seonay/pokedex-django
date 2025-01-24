@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div class="search-container">
+        <form method="get" action="{% url 'pokemon_list' %}">
+            <input type="text" name="search" placeholder="Rechercher un Pokémon" value="{{ request.GET.search }}">
+            <input type="text" name="type" placeholder="Filtrer par type" value="{{ request.GET.type }}">
+            <button type="submit">Rechercher</button>
+        </form>
+    </div>
+
+    <div class="type-buttons">
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="water">Water</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="fire">Fire</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="grass">Grass</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="electric">Electric</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="ice">Ice</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="fighting">Fighting</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="poison">Poison</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="ground">Ground</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="flying">Flying</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="psychic">Psychic</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="bug">Bug</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="rock">Rock</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="ghost">Ghost</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="dragon">Dragon</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="dark">Dark</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="steel">Steel</button>
+        </form>
+        <form method="get" action="{% url 'pokemon_list' %}" style="display: inline;">
+            <button type="submit" name="type" value="fairy">Fairy</button>
+        </form>
+    </div>
+</body>
+</html>

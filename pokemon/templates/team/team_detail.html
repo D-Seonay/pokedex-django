@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Création d'une équipe</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
+  </head>
+  <body>
+    {% include 'components/navbar.html' %}
+    <h2>Création d'une équipe</h2>
+
+    <a href="/teams">Retour à la liste</a>
+
+    <div class="team-display">
+      <form
+        id="team-name-form"
+        method="POST"
+        action="{% url 'team_detail' team_id=team.id %}"
+      >
+        {% csrf_token %}
+        <input
+          type="text"
+          name="name"
+          id="team-name-input"
+          value="{{ team.name }}"
+          placeholder="Nom de l'équipe"
+        />
+        <button type="submit" onclick="updateTeamName(event)">Mettre à jour</button>
+      </form>
+      <p>Pokémons dans votre équipe :</p>
+      <div class="pokemon-row">
+        {% for team_pokemon in team.team_pokemons.all|dictsort:"order" %}
+            <div class="pokemon-card" onclick="removePokemonFromTeam('{{ team_pokemon.pokemon.id }}', this)">
+                <img src="{{ team_pokemon.pokemon.sprite }}" alt="{{ team_pokemon.pokemon.name }}">
+                <p>{{ team_pokemon.pokemon.id }}</p>
+                <strong>{{ team_pokemon.pokemon.name }}</strong>
+                <p>Types: {{ team_pokemon.pokemon.types }}</p>
+            </div>
+        {% endfor %}
+      </div>
+    </div>
+
+    {% include 'components/searchbar.html' %}
+
+    <h3>Choisissez des pokémons à ajouter à l'équipe</h3>
+    {% if pokemons %}
+    <div class="pokemon-grid">
+      {% for pokemon in pokemons %}
+      <div class="pokemon-card" onclick="addPokemonToTeam('{{ pokemon.id }}')">
+        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}" />
+        <p>{{ pokemon.id }}</p>
+        <strong>{{ pokemon.name }}</strong>
+        <p>Types: {{ pokemon.types }}</p>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="no-results">
+      <p>Pas de Pokémon trouvé.</p>
+    </div>
+    {% endif %}
+
+    <script>
+      function updateTeamName(event) {
+        event.preventDefault();  
+
+        const teamNameInput = document.getElementById("team-name-input");
+        const newTeamName = teamNameInput.value.trim();
+
+        if (!newTeamName) {
+          alert("Le nom de l'équipe ne peut pas être vide.");
+          return;
+        }
+
+        fetch("{% url 'update_team_name' team.id %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `name=${newTeamName}`,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            const teamNameElement = document.querySelector("h4"); 
+            teamNameElement.textContent = `Equipe : ${data.team_name}`;
+          } else {
+            alert(data.error);  
+          }
+        })
+        .catch((error) => {
+          console.error("Erreur lors de la mise à jour du nom de l'équipe :", error);
+        });
+      }
+
+      function addPokemonToTeam(pokemonId) {
+        const teamPokemonsCount = document.querySelectorAll(".pokemon-row .pokemon-card").length;
+
+        if (teamPokemonsCount >= 6) {
+          alert("L'équipe ne peut contenir que 6 pokémons maximum !");
+          return;
+        }
+
+        fetch("{% url 'add_pokemon_ajax' team.id %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `pokemon_id=${pokemonId}`,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            let newItem = document.createElement("div");
+            newItem.classList.add("pokemon-card");
+
+            newItem.innerHTML = `
+                <img src="${data.pokemon_sprite}" alt="${data.pokemon_name}">
+                <p>${pokemonId}</p>
+                <strong>${data.pokemon_name}</strong>
+                <p>Types: ${data.pokemon_types}</p>
+            `;
+
+            newItem.setAttribute(
+                "onclick",
+                `removePokemonFromTeam('${pokemonId}', this)`
+            );
+            document.querySelector(".pokemon-row").appendChild(newItem);
+          } else {
+            alert(data.error);
+          }
+        })
+        .catch((error) => {
+          console.error("Erreur lors de l'ajout du Pokémon :", error);
+        });
+      }
+
+      function removePokemonFromTeam(pokemonId, element) {
+        fetch("{% url 'remove_pokemon_ajax' team_id=team.id %}", {
+          method: "POST",
+          headers: {
+            "X-CSRFToken": "{{ csrf_token }}",
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: `pokemon_id=${pokemonId}`,
+        })
+        .then((response) => response.json())
+        .then((data) => {
+          if (data.success) {
+            element.remove();
+          }
+        });
+      }
+    </script>
+  </body>
+</html>

@@ -2,95 +2,12 @@
 <html lang="fr">
 <head>
     <title>{{ pokemon.name }}</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #f4f6fc;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
-
-        .container {
-            background-color: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-            max-width: 500px;
-            width: 100%;
-            padding: 20px;
-            text-align: center;
-        }
-
-        h1 {
-            color: #2c3e50;
-            text-transform: capitalize;
-        }
-
-        img {
-            display: block;
-            margin: 20px auto;
-            max-width: 150px;
-        }
-
-        p {
-            font-size: 16px;
-            color: #555;
-            margin: 10px 0;
-        }
-
-        .progress-container {
-            background-color: #e0e0e0;
-            width: 100%;
-            height: 10px;
-            border-radius: 5px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
-            position: relative;
-            width: 0; /* Initialement à 0 */
-            height: 100%;
-            border-radius: 5px;
-            background-color: #4caf50; /* Couleur de la barre */
-            transition: width 0.8s ease; /* Animation douce */
-        }
-
-        .stats {
-            margin: 20px 0;
-            text-align: left;
-        }
-
-        .stat {
-            margin-bottom: 15px;
-        }
-
-        .stat p {
-            margin: 0;
-            font-weight: bold;
-        }
-
-        a {
-            display: inline-block;
-            margin-top: 20px;
-            padding: 10px 15px;
-            background-color: #007BFF;
-            color: white;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-
-        a:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/global.css' %}">
 </head>
 <body>
+    {% include 'components/navbar.html' %}
+    {% include 'components/searchbar.html' %}
     <div class="container">
         <h1>{{ pokemon.name }}</h1>
         <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
@@ -135,10 +52,10 @@
                     <div class="progress-bar" data-value="{{ pokemon.speed }}"></div>
                 </div>
             </div>  
-                <audio controls>
-                    <source src="{{ pokemon.cry_url }}" type="audio/mpeg">
-                    Your browser does not support the audio element.
-                </audio>
+            <audio controls>
+                <source src="{{ pokemon.cry_url }}" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
         </div>
 
         <a href="/">Retour au Pokédex</a>
