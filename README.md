@@ -77,3 +77,34 @@ Pour récupérer les données des Pokémon depuis l'API PokeAPI, exécutez la co
 
 ```sh
 python manage.py fetch_pokemon
+```
+## Structure du projet
+
+```sh
+php
+Copy
+Edit
+pokedex-django/
+├── manage.py                # Fichier principal pour exécuter les commandes Django
+├── pokedex-django/           # Répertoire principal du projet Django
+│   ├── __init__.py
+│   ├── settings.py           # Paramètres de configuration Django
+│   ├── urls.py               # Définition des routes
+│   └── wsgi.py
+├── pokemon/                  # Application principale de Pokémon
+│   ├── __init__.py
+│   ├── admin.py              # Administration des modèles
+│   ├── apps.py               # Configuration de l'application
+│   ├── models.py             # Définition des modèles de Pokémon
+│   ├── views.py              # Vues de l'application
+│   ├── migrations/           # Dossier des migrations de base de données
+│   ├── management/           # Commandes personnalisées de gestion
+│   │   └── commands/         # Commandes de gestion pour récupérer les données de Pokémon
+│   │       └── fetch_pokemon.py
+│   ├── templates/            # Templates HTML
+│   │   └── components/       # Composants réutilisables
+│   └── static/               # Fichiers statiques (CSS, images)
+├── requirements.txt          # Liste des dépendances Python
+└── static/
+    └── css/
+        └── global.css        # Styles CSS globaux
