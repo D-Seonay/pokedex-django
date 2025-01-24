@@ -26,18 +26,19 @@
           id="team-name-input"
           value="{{ team.name }}"
           placeholder="Nom de l'équipe"
+          autocomplete="off"
         />
         <button type="submit" onclick="updateTeamName(event)">Mettre à jour</button>
       </form>
       <p>Pokémons dans votre équipe :</p>
       <div class="pokemon-row">
         {% for team_pokemon in team.team_pokemons.all|dictsort:"order" %}
-            <div class="pokemon-card" onclick="removePokemonFromTeam('{{ team_pokemon.pokemon.id }}', this)">
-                <img src="{{ team_pokemon.pokemon.sprite }}" alt="{{ team_pokemon.pokemon.name }}">
-                <p>{{ team_pokemon.pokemon.id }}</p>
-                <strong>{{ team_pokemon.pokemon.name }}</strong>
-                <p>Types: {{ team_pokemon.pokemon.types }}</p>
-            </div>
+          <div class="pokemon-card" onclick="removePokemonFromTeam('{{ team_pokemon.pokemon.id }}', this)">
+            <img src="{{ team_pokemon.pokemon.sprite }}" alt="{{ team_pokemon.pokemon.name }}" />
+            <p>{{ team_pokemon.pokemon.id }}</p>
+            <strong>{{ team_pokemon.pokemon.name }}</strong>
+            <p>Types: {{ team_pokemon.pokemon.types }}</p>
+          </div>
         {% endfor %}
       </div>
     </div>
@@ -46,20 +47,20 @@
 
     <h3>Choisissez des pokémons à ajouter à l'équipe</h3>
     {% if pokemons %}
-    <div class="pokemon-grid">
-      {% for pokemon in pokemons %}
-      <div class="pokemon-card" onclick="addPokemonToTeam('{{ pokemon.id }}')">
-        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}" />
-        <p>{{ pokemon.id }}</p>
-        <strong>{{ pokemon.name }}</strong>
-        <p>Types: {{ pokemon.types }}</p>
+      <div class="pokemon-grid">
+        {% for pokemon in pokemons %}
+          <div class="pokemon-card" onclick="addPokemonToTeam('{{ pokemon.id }}')">
+            <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}" />
+            <p>{{ pokemon.id }}</p>
+            <strong>{{ pokemon.name }}</strong>
+            <p>Types: {{ pokemon.types }}</p>
+          </div>
+        {% endfor %}
       </div>
-      {% endfor %}
-    </div>
     {% else %}
-    <div class="no-results">
-      <p>Pas de Pokémon trouvé.</p>
-    </div>
+      <div class="no-results">
+        <p>Pas de Pokémon trouvé.</p>
+      </div>
     {% endif %}
 
     <script>
@@ -98,7 +99,6 @@
 
       function addPokemonToTeam(pokemonId) {
         const teamPokemonsCount = document.querySelectorAll(".pokemon-row .pokemon-card").length;
-
         if (teamPokemonsCount >= 6) {
           alert("L'équipe ne peut contenir que 6 pokémons maximum !");
           return;
@@ -119,17 +119,21 @@
             newItem.classList.add("pokemon-card");
 
             newItem.innerHTML = `
-                <img src="${data.pokemon_sprite}" alt="${data.pokemon_name}">
-                <p>${pokemonId}</p>
-                <strong>${data.pokemon_name}</strong>
-                <p>Types: ${data.pokemon_types}</p>
+              <img src="${data.pokemon_sprite}" alt="${data.pokemon_name}">
+              <p>${data.pokemon_id}</p>
+              <strong>${data.pokemon_name}</strong>
+              <p>Types: ${data.pokemon_types}</p>
             `;
 
             newItem.setAttribute(
-                "onclick",
-                `removePokemonFromTeam('${pokemonId}', this)`
+              "onclick",
+              `removePokemonFromTeam('${data.pokemon_id}', this)`
             );
-            document.querySelector(".pokemon-row").appendChild(newItem);
+
+            const pokemonRow = document.querySelector(".pokemon-row");
+            pokemonRow.appendChild(newItem);
+
+            pokemonRow.scrollTop = pokemonRow.scrollHeight;
           } else {
             alert(data.error);
           }

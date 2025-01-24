@@ -15,7 +15,7 @@
     {% if pokemons %}
     <div class="pokemon-grid">
         {% for pokemon in pokemons %}
-        <a href="{{ pokemon.id }}/">
+        <a href="{% url 'pokemon_detail' pokemon.id %}">
             <div class="pokemon-card">
                 <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
                 <p>{{ pokemon.id }}</p>
