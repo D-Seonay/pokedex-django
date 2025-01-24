@@ -6,10 +6,31 @@ from .utils import simulate_battle
 
 
 def pokemon_list(request):
+    search_query = request.GET.get('search', '')
+    type_filter = request.GET.get('type', '')
+
     pokemons = Pokemon.objects.all()
-    return render(request, "pokemon_list.html", {"pokemons": pokemons})
+
+    if search_query:
+        pokemons = pokemons.filter(name__icontains=search_query)
+
+    if type_filter:
+        pokemons = pokemons.filter(types__name__iexact=type_filter)
+
+    return render(request, 'pokemon_list.html', {'pokemons': pokemons})
 
 def pokemon_detail(request, pk):
+    search_query = request.GET.get('search', '')
+    type_filter = request.GET.get('type', '')
+
+    pokemons = Pokemon.objects.all()
+
+    if search_query:
+        pokemons = pokemons.filter(name__icontains=search_query)
+
+    if type_filter:
+        pokemons = pokemons.filter(types__name__iexact=type_filter)
+
     pokemon = get_object_or_404(Pokemon, pk=pk)
     return render(request, "pokemon_detail.html", {"pokemon": pokemon})
 
