@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Pokemon, Team, Battle
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
+from .models import Pokemon, Team, Battle
 from .forms import TeamForm
 
 @login_required
@@ -22,9 +22,14 @@ def team_create(request):
 
 @admin.register(Pokemon)
 class PokemonAdmin(admin.ModelAdmin):
-    list_display = ('name', 'number', 'types', 'height', 'weight')
+    list_display = ('name', 'number', 'get_types', 'height', 'weight')  
     search_fields = ('name',)
 
+    def get_types(self, obj):
+        """ Affiche les types sous forme de texte séparé par des virgules """
+        return ", ".join([t.name for t in obj.types.all()])
+    
+    get_types.short_description = "Types"  
 @admin.register(Team)
 class TeamAdmin(admin.ModelAdmin):
     list_display = ('name', 'created_at')
@@ -33,4 +38,4 @@ class TeamAdmin(admin.ModelAdmin):
 @admin.register(Battle)
 class BattleAdmin(admin.ModelAdmin):
     list_display = ('trainer1', 'trainer2', 'winner', 'created_at')
-    search_fields = ('trainer1__name', 'trainer2__name', 'winner__name')
+    search_fields = ('trainer1__username', 'trainer2__username', 'winner__username')  
