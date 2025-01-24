@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,8 +25,7 @@ SECRET_KEY = 'django-insecure-cv@g4j&-%ig2y__gg(z9@+5avjdh0@!t6gau-#^b9-m*-*y92w
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = []  # Set this to the allowed hostnames for your production server
 
 # Application definition
 
@@ -36,7 +36,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'pokemon',
+    'pokemon',  # Your custom app
 ]
 
 MIDDLEWARE = [
@@ -54,7 +54,7 @@ ROOT_URLCONF = 'pokedex.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates',],
+        'DIRS': [BASE_DIR / 'templates',],  # Add any other directories if needed
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -70,27 +70,28 @@ TEMPLATES = [
 WSGI_APPLICATION = 'pokedex.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
+# Database configuration
+# If you are using SQLite, the following configuration is fine.
+# If you're using PostgreSQL, adjust it accordingly.
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
+        'ENGINE': 'django.db.backends.sqlite3',  # Change this for production if you're using a different DB
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
+# Uncomment and adjust for PostgreSQL if you need:
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.postgresql',
 #         'NAME': 'django_db',
 #         'USER': 'django',
 #         'PASSWORD': 'django_password',
-#         'HOST': 'db',  # Nom du service défini dans docker-compose
+#         'HOST': 'db',  # Host can be set for Docker or production
 #         'PORT': 5432,
 #     }
 # }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
@@ -128,11 +129,19 @@ USE_TZ = True
 
 STATIC_URL = '/static/'  # URL where static files can be accessed
 STATICFILES_DIRS = [
-    BASE_DIR / "static",  # Directs Django to the 'static' folder in your project root
+    os.path.join(BASE_DIR, "static"),
 ]
 STATIC_ROOT = BASE_DIR / 'staticfiles'  # Used to collect static files in production
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static',  # Make sure this folder exists
+]
+# Ensure that `STATICFILES_DIRS` is correctly set to an existing directory
+# Make sure that this folder exists: `static/` or adjust accordingly in your project structure.
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# If you use a custom storage backend (e.g., S3, Cloud Storage), configure it here.

@@ -7,58 +7,77 @@
 </head>
 <body>
     {% include 'components/navbar.html' %}
-    {% include 'components/searchbar.html' %}
-    <div class="container">
-        <h1>{{ pokemon.name }}</h1>
-        <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
-        <p>Types : {{ pokemon.types }}</p>
-        <p>Height : {{ pokemon.height }} m</p>
-        <p>Weight : {{ pokemon.weight }} kg</p>
 
-        <div class="stats">
-            <div class="stat">
-                <p>HP : {{ pokemon.hp }}</p>
-                <div class="progress-container">
-                    <div class="progress-bar" data-value="{{ pokemon.hp }}"></div>
-                </div>
+    <div class="container">
+        <div class="pokemon-navigation">
+            {% if pokemon.previous %}
+                <a href="{% url 'pokemon_detail' pokemon_id=pokemon.previous.id %}" class="nav-btn left">
+                    <span class="arrow">&#8592;</span> Précédent
+                </a>
+            {% endif %}
+            
+            <div class="pokemon-card">
+                <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
+                <div class="pokemon-info">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <h1>{{ pokemon.name }}</h1>
+                        <p>{% for type in pokemon.types.all %}{{ type.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
+                    </div>
+                    <p><strong>Height:</strong> {{ pokemon.height }} m</p>
+                    <p><strong>Weight:</strong> {{ pokemon.weight }} kg</p>
+                    <div class="stats">
+                        <div class="stat">
+                            <p>HP: {{ pokemon.hp }}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" data-value="{{ pokemon.hp }}"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <p>Attack: {{ pokemon.attack }}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" data-value="{{ pokemon.attack }}"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <p>Defense: {{ pokemon.defense }}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" data-value="{{ pokemon.defense }}"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <p>Special Attack: {{ pokemon.special_attack }}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" data-value="{{ pokemon.special_attack }}"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <p>Special Defense: {{ pokemon.special_defense }}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" data-value="{{ pokemon.special_defense }}"></div>
+                            </div>
+                        </div>
+                        <div class="stat">
+                            <p>Speed: {{ pokemon.speed }}</p>
+                            <div class="progress-container">
+                                <div class="progress-bar" data-value="{{ pokemon.speed }}"></div>
+                            </div>
+                        </div>
+                    </div>
+                <audio controls style="width: 100%; margin-top: 20px;">
+                    <source src="{{ pokemon.cry_url }}" type="audio/mpeg">
+                    Votre navigateur ne supporte pas l'élément audio.
+                </audio>
+        </div>
             </div>
-            <div class="stat">
-                <p>Attack : {{ pokemon.attack }}</p>
-                <div class="progress-container">
-                    <div class="progress-bar" data-value="{{ pokemon.attack }}"></div>
-                </div>
-            </div>
-            <div class="stat">
-                <p>Defense : {{ pokemon.defense }}</p>
-                <div class="progress-container">
-                    <div class="progress-bar" data-value="{{ pokemon.defense }}"></div>
-                </div>
-            </div>
-            <div class="stat">
-                <p>Special Attack : {{ pokemon.special_attack }}</p>
-                <div class="progress-container">
-                    <div class="progress-bar" data-value="{{ pokemon.special_attack }}"></div>
-                </div>
-            </div>
-            <div class="stat">
-                <p>Special Defense : {{ pokemon.special_defense }}</p>
-                <div class="progress-container">
-                    <div class="progress-bar" data-value="{{ pokemon.special_defense }}"></div>
-                </div>
-            </div>
-            <div class="stat">
-                <p>Speed : {{ pokemon.speed }}</p>
-                <div class="progress-container">
-                    <div class="progress-bar" data-value="{{ pokemon.speed }}"></div>
-                </div>
-            </div>  
-            <audio controls>
-                <source src="{{ pokemon.cry_url }}" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
+
+            {% if pokemon.next %}
+                <a href="{% url 'pokemon_detail' pokemon_id=pokemon.next.id %}" class="nav-btn right">
+                    Suivant <span class="arrow">&#8594;</span>
+                </a>
+            {% endif %}
         </div>
 
-        <a href="/">Retour au Pokédex</a>
+        <a href="/">Back to Pokedex</a>
     </div>
 
     <script>
@@ -67,11 +86,95 @@
 
             progressBars.forEach(bar => {
                 const value = bar.getAttribute("data-value");
-                const max = 255; // Remplacez par la valeur max selon vos besoins
+                const max = 255; 
                 const percentage = (value / max) * 100;
                 bar.style.width = percentage + "%";
             });
         });
     </script>
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .pokemon-navigation {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .nav-btn {
+            padding: 15px 30px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color 0.3s;
+            font-size: 18px;
+            display: inline-block;
+        }
+
+        .nav-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .nav-btn .arrow {
+            font-size: 25px;
+            margin: 0 10px;
+        }
+
+        .pokemon-card {
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .pokemon-card img {
+            max-width: 200px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .pokemon-info {
+            text-align: left;
+            width: 100%;
+        }
+
+        .stats {
+            margin-top: 20px;
+        }
+
+        .stat {
+            margin-bottom: 15px;
+        }
+
+        .progress-container {
+            width: 100%;
+            background-color: #f3f3f3;
+            border-radius: 5px;
+            height: 8px;
+            margin-top: 5px;
+        }
+
+        .progress-bar {
+            background-color: #4caf50;
+            height: 100%;
+            border-radius: 5px;
+        }
+
+        .pokemon-navigation a {
+            width: 48%;
+        }
+    </style>
 </body>
 </html>

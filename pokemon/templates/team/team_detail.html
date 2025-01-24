@@ -1,17 +1,15 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Création d'une équipe</title>
+    <title>Team planner</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
   </head>
   <body>
     {% include 'components/navbar.html' %}
-    <h2>Création d'une équipe</h2>
-
-    <a href="/teams">Retour à la liste</a>
+    <h2>Form a team</h2>
 
     <div class="team-display">
       <form
@@ -28,16 +26,19 @@
           placeholder="Nom de l'équipe"
           autocomplete="off"
         />
-        <button type="submit" onclick="updateTeamName(event)">Mettre à jour</button>
+        <button type="submit" onclick="updateTeamName(event)">Update</button>
       </form>
-      <p>Pokémons dans votre équipe :</p>
+      <p>Pokemons in your team :</p>
       <div class="pokemon-row">
         {% for team_pokemon in team.team_pokemons.all|dictsort:"order" %}
           <div class="pokemon-card" onclick="removePokemonFromTeam('{{ team_pokemon.pokemon.id }}', this)">
             <img src="{{ team_pokemon.pokemon.sprite }}" alt="{{ team_pokemon.pokemon.name }}" />
-            <p>{{ team_pokemon.pokemon.id }}</p>
-            <strong>{{ team_pokemon.pokemon.name }}</strong>
-            <p>Types: {{ team_pokemon.pokemon.types }}</p>
+            <strong>#{{ team_pokemon.pokemon.id }} - {{ team_pokemon.pokemon.name }}</strong>
+            <p> 
+              {% for type in team_pokemon.pokemon.types.all %}
+                {{ type.name }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </p>
           </div>
         {% endfor %}
       </div>
@@ -45,15 +46,18 @@
 
     {% include 'components/searchbar.html' %}
 
-    <h3>Choisissez des pokémons à ajouter à l'équipe</h3>
+    <h3>Choose pokemons to add to your team !</h3>
     {% if pokemons %}
       <div class="pokemon-grid">
         {% for pokemon in pokemons %}
           <div class="pokemon-card" onclick="addPokemonToTeam('{{ pokemon.id }}')">
             <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}" />
-            <p>{{ pokemon.id }}</p>
-            <strong>{{ pokemon.name }}</strong>
-            <p>Types: {{ pokemon.types }}</p>
+            <strong>#{{ pokemon.id }} - {{ pokemon.name }}</strong>
+            <p> 
+              {% for type in pokemon.types.all %}
+                {{ type.name }}{% if not forloop.last %}, {% endif %}
+              {% endfor %}
+            </p>
           </div>
         {% endfor %}
       </div>
@@ -122,7 +126,7 @@
               <img src="${data.pokemon_sprite}" alt="${data.pokemon_name}">
               <p>${data.pokemon_id}</p>
               <strong>${data.pokemon_name}</strong>
-              <p>Types: ${data.pokemon_types}</p>
+              <p> ${data.pokemon_types}</p>
             `;
 
             newItem.setAttribute(
