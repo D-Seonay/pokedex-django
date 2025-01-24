@@ -81,9 +81,6 @@ python manage.py fetch_pokemon
 ## Structure du projet
 
 ```sh
-php
-Copy
-Edit
 pokedex-django/
 ├── manage.py                # Fichier principal pour exécuter les commandes Django
 ├── pokedex-django/           # Répertoire principal du projet Django
