@@ -1,12 +1,24 @@
 # Pokédex Django
 
-Ce projet est une application web Pokédex développée avec Django. Elle permet de consulter les informations sur les Pokémon et inclut un mode de batailles.
+Ce projet est une application web Pokédex développée avec Django. Elle permet de consulter les informations sur les Pokémon, de créer et gérer des équipes, et inclut un mode de batailles.
 
 ## Prérequis
 
 - Python 3.x
 - Django 5.1.4
 - SQLite (inclus par défaut avec Django)
+
+## Description
+
+Ce projet est une application web Django permettant de créer et gérer des équipes de Pokémon. Les informations des Pokémon sont récupérées depuis l'API PokeAPI. Les utilisateurs peuvent créer des équipes, ajouter des Pokémon, mettre à jour les noms des équipes, et afficher des informations détaillées pour chaque Pokémon.
+
+### Fonctionnalités principales :
+- **Création et gestion d'équipes** : Créez des équipes de Pokémon et mettez à jour leur nom.
+- **Ajout de Pokémon à l'équipe** : Sélectionnez des Pokémon à ajouter dans votre équipe.
+- **Suppression de Pokémon** : Retirez un Pokémon de votre équipe.
+- **Types de Pokémon** : Affichez les types (comme `Feu`, `Eau`, `Plante`, etc.) de chaque Pokémon dans l'équipe.
+- **Statistiques des Pokémon** : Visualisez les statistiques détaillées pour chaque Pokémon, telles que l'attaque, la défense, et la vitesse.
+- **Recherche de Pokémon** : Recherchez des Pokémon à ajouter à votre équipe via une barre de recherche.
 
 ## Installation
 
@@ -43,18 +55,25 @@ Ce projet est une application web Pokédex développée avec Django. Elle permet
 
 ### Pokédex
 
-- Accédez à la liste des Pokémon à la racine de l'application.
-- Cliquez sur un Pokémon pour voir ses détails, y compris ses statistiques et son cri.
+- Accédez à la liste des Pokémon dans l'application.
+- Cliquez sur un Pokémon pour voir ses détails, y compris son sprite, ses types, ses statistiques et son cri.
+- Vous pouvez également ajouter des Pokémon à vos équipes ou les supprimer.
+
+### Gestion des Équipes
+
+- Créez des équipes de Pokémon en leur attribuant un nom.
+- Ajoutez des Pokémon à une équipe en cliquant sur leur carte dans la section "Choisissez des pokémons à ajouter à l'équipe".
+- Supprimez un Pokémon d'une équipe en cliquant sur sa carte dans la section "Pokémons dans votre équipe".
 
 ### Mode Batailles
 
-- Le mode batailles permet de simuler des combats entre Pokémon.
-- (Ajoutez ici des instructions spécifiques sur l'utilisation du mode batailles si nécessaire.)
+- Le mode batailles permet de simuler des combats entre Pokémon (si implémenté dans le projet, vous pouvez ajouter des détails ici sur la façon de l'utiliser).
 
 ## Commandes de gestion
 
 ### Fetch Pokémon
 
 Pour récupérer les données des Pokémon depuis l'API PokeAPI, exécutez la commande suivante :
+
 ```sh
 python manage.py fetch_pokemon
