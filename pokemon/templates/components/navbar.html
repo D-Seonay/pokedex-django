@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
     <style>
         .navbar {
-            background-color: #333;
+            background-color: #010c1f;
             overflow: hidden;
             position: fixed;
             top: 0;
@@ -29,14 +29,14 @@
         }
         body {
             margin: 0;
-            padding-top: 50px; /* Adjust this value if the navbar height changes */
+            padding-top: 50px;
         }
     </style>
 </head>
 <body>
     <div class="navbar">
-        <a href="{% url 'pokemon_list' %}">Accueil</a>
-        <a href="{% url 'team_list' %}">Mes équipes</a>
+        <a href="{% url 'pokemon_list' %}">Home</a>
+        <a href="{% url 'team_list' %}">My teams</a>
     </div>
 </body>
 </html>

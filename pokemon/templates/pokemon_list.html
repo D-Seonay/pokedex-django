@@ -1,14 +1,13 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
-    <title>Liste des Pokémon</title>
+    <title>Pokedex</title>
     {% load static %}
-    <link rel="stylesheet" href="{% static 'css/global.css' %}">
 </head>
 <body>
     {% include 'components/navbar.html' %}
 
-    <h1>Liste des Pokémon</h1>
+    <h1>Pokedex</h1>
     
     {% include 'components/searchbar.html' %}
 
@@ -18,9 +17,8 @@
         <a href="{% url 'pokemon_detail' pokemon.id %}">
             <div class="pokemon-card">
                 <img src="{{ pokemon.sprite }}" alt="{{ pokemon.name }}">
-                <p>{{ pokemon.id }}</p>
-                <strong>{{ pokemon.name }}</strong>
-                <p>Types: {{ pokemon.types }}</p>
+                <strong>#{{ pokemon.id }} - {{ pokemon.name }}</strong>
+                <p>{% for type in pokemon.types.all %}{{ type.name }}{% if not forloop.last %}, {% endif %}{% endfor %}</p>
             </div>
         </a>
         {% endfor %}

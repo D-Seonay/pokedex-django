@@ -1,25 +1,25 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Teams</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/global.css' %}">
 </head>
 
 <body>
     {% include 'components/navbar.html' %}
-    <h2>Toutes les équipes</h2>
-    <a href="{% url 'team_create' %}">Créer une nouvelle équipe</a>
+    <h2>Teams</h2>
+    <a href="{% url 'team_create' %}">Create a new team</a>
     <ul>
         {% for team in teams %}
             <li>
                 <p>{{ team.name }}</p>
-                <a href="{% url 'team_detail' team.id %}">Modifier</a>
+                <a href="{% url 'team_detail' team.id %}">Edit</a>
                 <form action="{% url 'team_delete' team.id %}" method="post" style="display:inline;">
                     {% csrf_token %}
-                    <button type="submit">Supprimer</button>
+                    <button type="submit">Delete</button>
                 </form>
             </li>
         {% endfor %}
